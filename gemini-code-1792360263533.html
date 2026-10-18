@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Practice Quiz - Instruments & Grammar</title>
+  <style>
+    :root {
+      --primary: #4A90E2;
+      --primary-dark: #357ABD;
+      --secondary: #FF9F43;
+      --success: #2ECC71;
+      --danger: #EE5253;
+      --neutral-dark: #2C3E50;
+      --neutral-light: #F8F9FA;
+      --card-bg: #FFFFFF;
+      --radius: 16px;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #E0F2FE 0%, #EFF6FF 100%);
+      color: var(--neutral-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+    }
+
+    /* Header & Navigation bar */
+    header {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 20px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .logo-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-nav-toggle {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+
+    .btn-nav-toggle:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Container main layout */
+    .app-container {
+      width: 100%;
+      max-width: 900px;
+      position: relative;
+    }
+
+    /* Study / Start Screen */
+    .study-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .study-title {
+      font-size: 1.6rem;
+      color: var(--primary);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .grammar-box {
+      background: #F0F7FF;
+      border-left: 5px solid var(--primary);
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .grammar-box h3 {
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .grammar-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .grammar-table th, .grammar-table td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #E2E8F0;
+      font-size: 0.95rem;
+    }
+
+    .grammar-table th {
+      background: #E2E8F0;
+      color: var(--neutral-dark);
+    }
+
+    .start-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      background: var(--success);
+      color: white;
+      font-size: 1.3rem;
+      font-weight: bold;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.2s, background 0.2s;
+      box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+      margin-top: 20px;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+      background: #27AE60;
+    }
+
+    /* Quick Question Navigation Grid */
+    .question-grid-container {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .grid-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #64748B;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .question-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+      gap: 6px;
+    }
+
+    .q-btn {
+      height: 36px;
+      border: 2px solid #E2E8F0;
+      border-radius: 8px;
+      background: white;
+      font-weight: bold;
+      color: var(--neutral-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .q-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .q-btn.active {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+
+    .q-btn.correct {
+      background: var(--success);
+      color: white;
+      border-color: var(--success);
+    }
+
+    .q-btn.incorrect {
+      background: var(--danger);
+      color: white;
+      border-color: var(--danger);
+    }
+
+    /* Question Main Card */
+    .question-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .block-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      background: #E0F2FE;
+      color: var(--primary-dark);
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .question-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--neutral-dark);
+      line-height: 1.4;
+    }
+
+    /* Options & Input Styling */
+    .options-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .btn-option {
+      padding: 14px 18px;
+      border: 2px solid #E2E8F0;
+      border-radius: 12px;
+      background: white;
+      text-align: left;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .btn-option:hover {
+      border-color: var(--primary);
+      background: #F8FAFC;
+    }
+
+    .btn-option.selected {
+      border-color: var(--primary);
+      background: #EFF6FF;
+    }
+
+    .btn-option.correct-opt {
+      background: #DEF7EC;
+      border-color: var(--success);
+      color: #03543F;
+    }
+
+    .btn-option.wrong-opt {
+      background: #FDE8E8;
+      border-color: var(--danger);
+      color: #9B1C1C;
+    }
+
+    /* Image Display for Instrument Blocks */
+    .instrument-img-container {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .instrument-svg {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+    }
+
+    /* Text Input block */
+    .text-input-container {
+      margin-bottom: 20px;
+    }
+
+    .text-input {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid #CBD5E1;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .text-input:focus {
+      border-color: var(--primary);
+    }
+
+    /* Unscramble area */
+    .unscramble-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px;
+      background: #F1F5F9;
+      border-radius: 12px;
+      min-height: 50px;
+      margin-bottom: 16px;
+    }
+
+    .unscramble-answer-zone {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 12px;
+      border: 2px dashed var(--primary);
+      border-radius: 12px;
+      min-height: 60px;
+      margin-bottom: 16px;
+      background: #FAF5FF;
+      align-items: center;
+    }
+
+    .word-chip {
+      padding: 8px 14px;
+      background: white;
+      border: 1px solid #CBD5E1;
+      border-radius: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transition: transform 0.1s;
+    }
+
+    .word-chip:active {
+      transform: scale(0.95);
+    }
+
+    .btn-reset-words {
+      background: #E2E8F0;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+
+    /* Feedback Box */
+    .feedback-box {
+      padding: 14px 18px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      display: none;
+    }
+
+    .feedback-box.correct {
+      display: block;
+      background: #DEF7EC;
+      color: #03543F;
+      border: 1px solid #84E1BC;
+    }
+
+    .feedback-box.incorrect {
+      display: block;
+      background: #FDE8E8;
+      color: #9B1C1C;
+      border: 1px solid #F8B4B4;
+    }
+
+    /* Navigation Controls */
+    .action-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-control {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-prev {
+      background: #E2E8F0;
+      color: var(--neutral-dark);
+    }
+
+    .btn-next {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-check {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-try-again {
+      background: #F59E0B;
+      color: white;
+      display: none;
+    }
+
+    /* Sidebar Drawer Navigation */
+    .sidebar-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 100;
+      display: none;
+    }
+
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: -320px;
+      width: 300px;
+      height: 100%;
+      background: white;
+      z-index: 101;
+      transition: left 0.3s ease;
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 4px 0 16px rgba(0,0,0,0.1);
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid #E2E8F0;
+      padding-bottom: 10px;
+    }
+
+    .block-section-title {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: #64748B;
+      margin: 16px 0 8px 0;
+    }
+
+    .sidebar-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar-item {
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: #F8FAFC;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .sidebar-item:hover {
+      background: #E0F2FE;
+    }
+
+    /* Report Card Screen */
+    .report-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .report-score {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary);
+      margin: 16px 0;
+    }
+
+    .report-stats {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      background: #F8FAFC;
+      padding: 16px;
+      border-radius: 12px;
+    }
+
+    .stat-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .stat-val {
+      font-size: 1.4rem;
+      font-weight: bold;
+    }
+
+    .recommendations {
+      text-align: left;
+      background: #FFFBEB;
+      border: 1px solid #FCD34D;
+      padding: 16px;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+
+    .recommendations h4 {
+      color: #B45309;
+      margin-bottom: 8px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-title">
+      🎵 English Quiz Kids
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button class="btn-nav-toggle" id="study-rules-btn" onclick="showStudyScreen()">📚 Regras</button>
+      <button class="btn-nav-toggle" onclick="toggleSidebar()">☰ Menu</button>
+    </div>
+  </header>
+
+  <!-- Sidebar overlay and menu -->
+  <div class="sidebar-overlay" id="overlay" onclick="toggleSidebar()"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>Navegação do Quiz</h3>
+      <button onclick="toggleSidebar()" style="background:none; border:none; font-size:1.5rem; cursor:pointer;">✕</button>
+    </div>
+    <div id="sidebar-content"></div>
+  </div>
+
+  <div class="app-container">
+
+    <!-- STUDY SCREEN -->
+    <div id="study-screen" class="study-card">
+      <h2 class="study-title">Guia de Estudos de Inglês 📖</h2>
+      
+      <div class="grammar-box">
+        <h3>1. Pronomes Pessoais (Subject Pronouns) e Substituições</h3>
+        <p>Usamos pronomes para substituir nomes de pessoas, coisas ou animais:</p>
+        <table class="grammar-table">
+          <tr><th>Pronome</th><th>Exemplos de Substituição</th></tr>
+          <tr><td><b>He</b> (Ele)</td><td>my friend (menino), my brother, Peter</td></tr>
+          <tr><td><b>She</b> (Ela)</td><td>my sister, Sarah, my mother</td></tr>
+          <tr><td><b>It</b> (Ele/Ela - coisas/animais)</td><td>the dog, the piano, the school</td></tr>
+          <tr><td><b>They</b> (Eles/Elas)</td><td>your sisters, my friends, Peter and Sarah</td></tr>
+          <tr><td><b>We</b> (Nós)</td><td>my friend and I, you and I</td></tr>
+        </table>
+      </div>
+
+      <div class="grammar-box">
+        <h3>2. Uso do DO / DOES / DON'T / DOESN'T</h3>
+        <p>Usamos o auxiliar de acordo com a pessoa:</p>
+        <table class="grammar-table">
+          <tr><th>Auxiliar</th><th>Pronomes / Sujeitos</th></tr>
+          <tr>
+            <td><b style="color:var(--primary)">DO / DON'T</b></td>
+            <td>I, You, We, They<br><i>(Ex: your sisters, my friends)</i></td>
+          </tr>
+          <tr>
+            <td><b style="color:var(--secondary)">DOES / DOESN'T</b></td>
+            <td>He, She, It<br><i>(Ex: my friend, your brother, Sarah)</i></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="grammar-box">
+        <h3>3. Respostas Curtas (Short Answers)</h3>
+        <p>Aprenda a forma exata de responder às perguntas:</p>
+        <ul>
+          <li><b>Afirmativa:</b> Yes, I do.</li>
+          <li><b>Negativa:</b> No, I don't.</li>
+        </ul>
+        <small style="color:#64748B;">Atenção à vírgula, ao apóstrofo e ao ponto final!</small>
+      </div>
+
+      <button class="start-btn" onclick="startQuiz()">Começar o Quiz! 🚀</button>
+    </div>
+
+    <!-- QUIZ INTERACTIVE SCREEN -->
+    <div id="quiz-screen" class="hidden">
+      
+      <!-- Rapid access question grid (1 to 38) -->
+      <div class="question-grid-container">
+        <div class="grid-label">Acesso Rápido às Questões:</div>
+        <div class="question-grid" id="quick-grid"></div>
+      </div>
+
+      <!-- Question display card -->
+      <div class="question-card">
+        <div class="block-tag" id="block-tag">Bloco 1</div>
+        <div class="question-text" id="question-text">Carregando pergunta...</div>
+
+        <!-- Optional image zone -->
+        <div class="instrument-img-container hidden" id="img-container"></div>
+
+        <!-- Option Area (For Multiple Choice) -->
+        <div class="options-container" id="options-container"></div>
+
+        <!-- Text Input Area (Block 4) -->
+        <div class="text-input-container hidden" id="input-container">
+          <input type="text" class="text-input" id="text-answer" placeholder="Digite exatamente: Yes, I do. ou No, I don't." autocomplete="off">
+        </div>
+
+        <!-- Unscramble Zone (Block 5) -->
+        <div id="unscramble-container" class="hidden">
+          <button class="btn-reset-words" onclick="resetUnscramble()">🔄 Limpar Palavras</button>
+          <div class="unscramble-answer-zone" id="unscramble-answer"></div>
+          <div class="unscramble-pool" id="unscramble-pool"></div>
+        </div>
+
+        <!-- Feedback message -->
+        <div class="feedback-box" id="feedback-box"></div>
+
+        <!-- Action Controls -->
+        <div class="action-controls">
+          <button class="btn-control btn-prev" id="btn-prev" onclick="prevQuestion()">Anterior</button>
+          <div>
+            <button class="btn-control btn-try-again" id="btn-try-again" onclick="resetCurrentQuestion()">Try Again 🔄</button>
+            <button class="btn-control btn-check" id="btn-check" onclick="checkAnswer()">Verificar</button>
+          </div>
+          <button class="btn-control btn-next" id="btn-next" onclick="nextQuestion()">Próxima</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPORT CARD SCREEN -->
+    <div id="report-screen" class="report-card hidden">
+      <h2>Relatório de Desempenho 📊</h2>
+      <p style="color:#64748B;">Confira como seu filho se saiu no teste!</p>
+
+      <div class="report-score" id="report-score">0%</div>
+
+      <div class="report-stats">
+        <div class="stat-box">
+          <span>Acertos</span>
+          <span class="stat-val" style="color:var(--success)" id="stat-correct">0</span>
+        </div>
+        <div class="stat-box">
+          <span>Erros</span>
+          <span class="stat-val" style="color:var(--danger)" id="stat-incorrect">0</span>
+        </div>
+        <div class="stat-box">
+          <span>Total</span>
+          <span class="stat-val" id="stat-total">38</span>
+        </div>
+      </div>
+
+      <div class="recommendations" id="recommendations-box">
+        <h4>Orientações para Revisão:</h4>
+        <ul id="recommendations-list" style="margin-left: 20px; font-size: 0.95rem;"></ul>
+      </div>
+
+      <button class="start-btn" style="margin-top: 24px;" onclick="showStudyScreen()">Refazer Quiz / Estudar</button>
+    </div>
+
+  </div>
+
+  <script>
+    // SVG Icons for instruments (Block 2 & 3)
+    const SVG_INSTRUMENTS = {
+      recorder: `<svg class="instrument-svg" viewBox="0 0 100 100"><rect x="45" y="10" width="10" height="80" rx="3" fill="#8B4513"/><circle cx="50" cy="30" r="2" fill="#FFF"/><circle cx="50" cy="45" r="2" fill="#FFF"/><circle cx="50" cy="60" r="2" fill="#FFF"/><circle cx="50" cy="75" r="2" fill="#FFF"/></svg>`,
+      trumpet: `<svg class="instrument-svg" viewBox="0 0 100 100"><path d="M10 45 L60 45 L85 25 L85 75 L60 55 L10 55 Z" fill="#FFD700" stroke="#B8860B" stroke-width="2"/><rect x="30" y="35" width="4" height="10" fill="#B8860B"/><rect x="40" y="35" width="4" height="10" fill="#B8860B"/></svg>`,
+      drums: `<svg class="instrument-svg" viewBox="0 0 100 100"><ellipse cx="50" cy="40" rx="35" ry="15" fill="#E2E8F0" stroke="#475569" stroke-width="3"/><rect x="15" y="40" width="70" height="35" fill="#EF4444"/><ellipse cx="50" cy="75" rx="35" ry="15" fill="#991B1B"/><line x1="20" y1="20" x2="35" y2="35" stroke="#000" stroke-width="3"/><line x1="80" y1="20" x2="65" y2="35" stroke="#000" stroke-width="3"/></svg>`,
+      piano: `<svg class="instrument-svg" viewBox="0 0 100 100"><rect x="10" y="20" width="80" height="60" rx="4" fill="#1E293B"/><rect x="15" y="45" width="70" height="30" fill="#FFF"/><line x1="25" y1="45" x2="25" y2="75" stroke="#000"/><line x1="35" y1="45" x2="35" y2="75" stroke="#000"/><line x1="45" y1="45" x2="45" y2="75" stroke="#000"/><line x1="55" y1="45" x2="55" y2="75" stroke="#000"/><line x1="65" y1="45" x2="65" y2="75" stroke="#000"/><line x1="75" y1="45" x2="75" y2="75" stroke="#000"/><rect x="21" y="45" x2="8" y="18" fill="#000"/><rect x="31" y="45" x2="8" y="18" fill="#000"/><rect x="51" y="45" x2="8" y="18" fill="#000"/><rect x="61" y="45" x2="8" y="18" fill="#000"/></svg>`,
+      violin: `<svg class="instrument-svg" viewBox="0 0 100 100"><path d="M35 20 Q50 15 65 20 Q55 40 65 60 Q50 85 35 60 Q45 40 35 20 Z" fill="#CD853F" stroke="#8B4513" stroke-width="2"/><line x1="50" y1="10" x2="50" y2="85" stroke="#000" stroke-width="2"/></svg>`,
+      tambourine: `<svg class="instrument-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="#F87171" stroke="#DC2626" stroke-width="6"/><circle cx="30" cy="22" r="4" fill="#FFD700"/><circle cx="70" cy="22" r="4" fill="#FFD700"/><circle cx="20" cy="50" r="4" fill="#FFD700"/><circle cx="80" cy="50" r="4" fill="#FFD700"/><circle cx="30" cy="78" r="4" fill="#FFD700"/><circle cx="70" cy="78" r="4" fill="#FFD700"/></svg>`,
+      electric_guitar: `<svg class="instrument-svg" viewBox="0 0 100 100"><path d="M40 40 Q30 50 40 70 Q50 85 65 70 Q70 50 55 40 Z" fill="#DC2626"/><rect x="48" y="10" width="4" height="35" fill="#475569"/></svg>`,
+      keyboard: `<svg class="instrument-svg" viewBox="0 0 100 100"><rect x="10" y="35" width="80" height="30" rx="3" fill="#334155"/><rect x="15" y="40" width="70" height="20" fill="#FFF"/><line x1="25" y1="40" x2="25" y2="60" stroke="#000"/><line x1="35" y1="40" x2="35" y2="60" stroke="#000"/><line x1="45" y1="40" x2="45" y2="60" stroke="#000"/><line x1="55" y1="40" x2="55" y2="60" stroke="#000"/><line x1="65" y1="40" x2="65" y2="60" stroke="#000"/></svg>`
+    };
+
+    // Full database of 38 questions
+    const questions = [
+      // BLOCK 1: Do vs Does (10 Questions)
+      { id: 1, block: 1, type: "choice", text: "___ you play the piano?", options: ["Do", "Does"], answer: "Do", explanation: "Usamos 'Do' com o pronome 'you'." },
+      { id: 2, block: 1, type: "choice", text: "___ he play the drums?", options: ["Do", "Does"], answer: "Does", explanation: "Usamos 'Does' com o pronome 'he'." },
+      { id: 3, block: 1, type: "choice", text: "___ she play the violin?", options: ["Do", "Does"], answer: "Does", explanation: "Usamos 'Does' com o pronome 'she'." },
+      { id: 4, block: 1, type: "choice", text: "___ they play the recorder?", options: ["Do", "Does"], answer: "Do", explanation: "Usamos 'Do' com o pronome 'they'." },
+      { id: 5, block: 1, type: "choice", text: "___ my friend play the trumpet?", options: ["Do", "Does"], answer: "Does", explanation: "'My friend' equivale a he/she (3ª pessoa do singular), logo usamos 'Does'." },
+      { id: 6, block: 1, type: "choice", text: "___ your sisters play the electric guitar?", options: ["Do", "Does"], answer: "Do", explanation: "'Your sisters' está no plural (elas / they), por isso usamos 'Do'." },
+      { id: 7, block: 1, type: "choice", text: "___ Peter play the tambourine?", options: ["Do", "Does"], answer: "Does", explanation: "'Peter' é ele (he), então usamos 'Does'." },
+      { id: 8, block: 1, type: "choice", text: "___ the students play in the orchestra?", options: ["Do", "Does"], answer: "Do", explanation: "'The students' está no plural (eles / they), portanto usamos 'Do'." },
+      { id: 9, block: 1, type: "choice", text: "___ your brother play the keyboard?", options: ["Do", "Does"], answer: "Does", explanation: "'Your brother' equivale a ele (he), usaremos 'Does'." },
+      { id: 10, block: 1, type: "choice", text: "___ you and your friends play in a rock band?", options: ["Do", "Does"], answer: "Do", explanation: "'You and your friends' significa 'vocês' (plural), então usa-se 'Do'." },
+
+      // BLOCK 2: Instruments (6 Questions)
+      { id: 11, block: 2, type: "choice", svg: "recorder", text: "Qual é este instrumento?", options: ["recorder", "trumpet", "drums", "piano"], answer: "recorder", explanation: "Este instrumento é a flauta doce (recorder)." },
+      { id: 12, block: 2, type: "choice", svg: "trumpet", text: "Qual é este instrumento?", options: ["violin", "trumpet", "tambourine", "piano"], answer: "trumpet", explanation: "Este instrumento de sopro é o trompete (trumpet)." },
+      { id: 13, block: 2, type: "choice", svg: "drums", text: "Qual é este instrumento?", options: ["piano", "recorder", "drums", "violin"], answer: "drums", explanation: "Este instrumento de percussão é a bateria (drums)." },
+      { id: 14, block: 2, type: "choice", svg: "piano", text: "Qual é este instrumento?", options: ["piano", "trumpet", "drums", "tambourine"], answer: "piano", explanation: "Este é o piano (piano)." },
+      { id: 15, block: 2, type: "choice", svg: "violin", text: "Qual é este instrumento?", options: ["recorder", "violin", "trumpet", "drums"], answer: "violin", explanation: "Este instrumento de cordas é o violino (violin)." },
+      { id: 16, block: 2, type: "choice", svg: "tambourine", text: "Qual é este instrumento?", options: ["tambourine", "piano", "recorder", "violin"], answer: "tambourine", explanation: "Este instrumento de percussão é o pandeiro (tambourine)." },
+
+      // BLOCK 3: Rock Band vs Orchestra (6 Questions)
+      { id: 17, block: 3, type: "choice", svg: "violin", text: "violin", options: ["orchestra", "rock band"], answer: "orchestra", explanation: "O violino (violin) faz parte da orchestra de acordo com a lição." },
+      { id: 18, block: 3, type: "choice", svg: "recorder", text: "recorder", options: ["orchestra", "rock band"], answer: "orchestra", explanation: "A flauta doce (recorder) faz parte da orchestra." },
+      { id: 19, block: 3, type: "choice", svg: "drums", text: "drums", options: ["orchestra", "rock band"], answer: "rock band", explanation: "A bateria (drums) faz parte da rock band." },
+      { id: 20, block: 3, type: "choice", svg: "piano", text: "piano", options: ["orchestra", "rock band"], answer: "orchestra", explanation: "O piano está agrupado com a orchestra." },
+      { id: 21, block: 3, type: "choice", svg: "keyboard", text: "keyboard", options: ["orchestra", "rock band"], answer: "rock band", explanation: "O teclado (keyboard) faz parte da rock band." },
+      { id: 22, block: 3, type: "choice", svg: "electric_guitar", text: "electric guitar", options: ["orchestra", "rock band"], answer: "rock band", explanation: "A guitarra elétrica (electric guitar) faz parte da rock band." },
+
+      // BLOCK 4: Short Answer Typing (10 Questions)
+      { id: 23, block: 4, type: "text", text: "Do you play the drums?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "A resposta pessoal deve ser exatamente 'Yes, I do.' ou 'No, I don't.' (com vírgula e ponto final)." },
+      { id: 24, block: 4, type: "text", text: "Do you play the piano?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "Lembre-se de digitar 'Yes, I do.' ou 'No, I don't.' prestando atenção à maiúscula, vírgula e ponto." },
+      { id: 25, block: 4, type: "text", text: "Do you play the violin?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "Certifique-se de usar o apóstrofo (') na palavra don't." },
+      { id: 26, block: 4, type: "text", text: "Do you play the recorder?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "Digite com exatidão: 'Yes, I do.' ou 'No, I don't.'" },
+      { id: 27, block: 4, type: "text", text: "Do you play the trumpet?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "Escreva 'Yes, I do.' ou 'No, I don't.'" },
+      { id: 28, block: 4, type: "text", text: "Do you play the tambourine?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "Verifique se a frase possui o ponto final e vírgula corretos." },
+      { id: 29, block: 4, type: "text", text: "Do you play the electric guitar?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "Formatos válidos: 'Yes, I do.' ou 'No, I don't.'" },
+      { id: 30, block: 4, type: "text", text: "Do you play the keyboard?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "Siga rigorosamente: 'Yes, I do.' ou 'No, I don't.'" },
+      { id: 31, block: 4, type: "text", text: "Do you play in a rock band?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "Confira a digitação das letras maiúsculas e pontuação." },
+      { id: 32, block: 4, type: "text", text: "Do you play in an orchestra?", answerFormat: ["Yes, I do.", "No, I don't."], explanation: "Sua resposta precisa ser 'Yes, I do.' ou 'No, I don't.'" },
+
+      // BLOCK 5: Unscramble (10 Questions)
+      { id: 33, block: 5, type: "unscramble", words: ["I", "play", "the", "drums."], target: "I play the drums.", text: "Ordene a frase:", explanation: "A ordem correta é: I play the drums." },
+      { id: 34, block: 5, type: "unscramble", words: ["She", "plays", "the", "violin."], target: "She plays the violin.", text: "Ordene a frase:", explanation: "A ordem correta é: She plays the violin." },
+      { id: 35, block: 5, type: "unscramble", words: ["Do", "you", "play", "the", "piano?"], target: "Do you play the piano?", text: "Ordene a pergunta:", explanation: "A ordem correta é: Do you play the piano?" },
+      { id: 36, block: 5, type: "unscramble", words: ["He", "does", "not", "play", "trumpet."], target: "He does not play trumpet.", text: "Ordene a frase:", explanation: "A ordem correta é: He does not play trumpet." },
+      { id: 37, block: 5, type: "unscramble", words: ["They", "play", "in", "an", "orchestra."], target: "They play in an orchestra.", text: "Ordene a frase:", explanation: "A ordem correta é: They play in an orchestra." },
+      { id: 38, block: 5, type: "unscramble", words: ["My", "friend", "plays", "electric", "guitar."], target: "My friend plays electric guitar.", text: "Ordene a frase:", explanation: "A ordem correta é: My friend plays electric guitar." },
+      { id: 39, block: 5, type: "unscramble", words: ["We", "play", "in", "a", "rock", "band."], target: "We play in a rock band.", text: "Ordene a frase:", explanation: "A ordem correta é: We play in a rock band." },
+      { id: 40, block: 5, type: "unscramble", words: ["Does", "she", "play", "the", "recorder?"], target: "Does she play the recorder?", text: "Ordene a pergunta:", explanation: "A ordem correta é: Does she play the recorder?" },
+      { id: 41, block: 5, type: "unscramble", words: ["I", "do", "not", "play", "tambourine."], target: "I do not play tambourine.", text: "Ordene a frase:", explanation: "A ordem correta é: I do not play tambourine." },
+      { id: 42, block: 5, type: "unscramble", words: ["Your", "sisters", "play", "the", "keyboard."], target: "Your sisters play the keyboard.", text: "Ordene a frase:", explanation: "A ordem correta é: Your sisters play the keyboard." }
+    ].slice(0, 38); // Exactly 38 questions total
+
+    let currentIdx = 0;
+    let userAnswers = {}; // Stores { questionId: { value, isCorrect, checked } }
+    let unscrambleSelectedWords = [];
+
+    // Initialize application
+    window.onload = function() {
+      buildQuickGrid();
+      buildSidebarNav();
+    };
+
+    function startQuiz() {
+      document.getElementById('study-screen').classList.add('hidden');
+      document.getElementById('report-screen').classList.add('hidden');
+      document.getElementById('quiz-screen').classList.remove('hidden');
+      renderQuestion(currentIdx);
+    }
+
+    function showStudyScreen() {
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('report-screen').classList.add('hidden');
+      document.getElementById('study-screen').classList.remove('hidden');
+    }
+
+    function buildQuickGrid() {
+      const grid = document.getElementById('quick-grid');
+      grid.innerHTML = '';
+      questions.forEach((q, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'q-btn';
+        btn.id = `grid-btn-${index}`;
+        btn.innerText = index + 1;
+        btn.onclick = () => jumpToQuestion(index);
+        grid.appendChild(btn);
+      });
+    }
+
+    function updateQuickGrid() {
+      questions.forEach((q, index) => {
+        const btn = document.getElementById(`grid-btn-${index}`);
+        const state = userAnswers[q.id];
+
+        btn.className = 'q-btn';
+        if (index === currentIdx) {
+          btn.classList.add('active');
+        }
+
+        if (state && state.checked) {
+          if (state.isCorrect) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('incorrect');
+          }
+        }
+      });
+    }
+
+    function buildSidebarNav() {
+      const sidebarContent = document.getElementById('sidebar-content');
+      sidebarContent.innerHTML = '';
+
+      let currentBlock = 0;
+      questions.forEach((q, index) => {
+        if (q.block !== currentBlock) {
+          currentBlock = q.block;
+          const blockTitle = document.createElement('div');
+          blockTitle.className = 'block-section-title';
+          blockTitle.innerText = `BLOCO ${currentBlock}`;
+          sidebarContent.appendChild(blockTitle);
+        }
+
+        const item = document.createElement('div');
+        item.className = 'sidebar-item';
+        item.innerHTML = `<span>Q${index + 1}. ${q.text.substring(0, 22)}...</span>`;
+        item.onclick = () => {
+          jumpToQuestion(index);
+          toggleSidebar();
+        };
+        sidebarContent.appendChild(item);
+      });
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const isOpen = sidebar.classList.contains('open');
+
+      if (isOpen) {
+        sidebar.classList.remove('open');
+        overlay.style.display = 'none';
+      } else {
+        sidebar.classList.add('open');
+        overlay.style.display = 'block';
+      }
+    }
+
+    function jumpToQuestion(index) {
+      currentIdx = index;
+      renderQuestion(currentIdx);
+    }
+
+    function renderQuestion(index) {
+      const q = questions[index];
+      updateQuickGrid();
+
+      document.getElementById('block-tag').innerText = `Bloco ${q.block}`;
+      document.getElementById('question-text').innerText = `${index + 1}. ${q.text}`;
+
+      // Reset visibility
+      document.getElementById('img-container').classList.add('hidden');
+      document.getElementById('options-container').classList.add('hidden');
+      document.getElementById('input-container').classList.add('hidden');
+      document.getElementById('unscramble-container').classList.add('hidden');
+      document.getElementById('feedback-box').className = 'feedback-box';
+      document.getElementById('btn-try-again').style.display = 'none';
+
+      // SVG image check
+      if (q.svg && SVG_INSTRUMENTS[q.svg]) {
+        const imgContainer = document.getElementById('img-container');
+        imgContainer.innerHTML = SVG_INSTRUMENTS[q.svg];
+        imgContainer.classList.remove('hidden');
+      }
+
+      const state = userAnswers[q.id] || {};
+
+      // Choice type (Blocks 1, 2, 3)
+      if (q.type === 'choice') {
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+        optionsContainer.classList.remove('hidden');
+
+        q.options.forEach(opt => {
+          const btn = document.createElement('button');
+          btn.className = 'btn-option';
+          btn.innerText = opt;
+
+          if (state.value === opt) btn.classList.add('selected');
+          if (state.checked) {
+            btn.disabled = true;
+            if (opt === q.answer) btn.classList.add('correct-opt');
+            else if (state.value === opt) btn.classList.add('wrong-opt');
+          } else {
+            btn.onclick = () => selectOption(q.id, opt);
+          }
+
+          optionsContainer.appendChild(btn);
+        });
+      }
+
+      // Text input type (Block 4)
+      else if (q.type === 'text') {
+        const inputContainer = document.getElementById('input-container');
+        const textInput = document.getElementById('text-answer');
+        inputContainer.classList.remove('hidden');
+
+        textInput.value = state.value || '';
+        textInput.disabled = !!state.checked;
+      }
+
+      // Unscramble type (Block 5)
+      else if (q.type === 'unscramble') {
+        const unscrambleContainer = document.getElementById('unscramble-container');
+        unscrambleContainer.classList.remove('hidden');
+
+        unscrambleSelectedWords = state.value ? state.value.split(' ') : [];
+        renderUnscrambleWords(q, !!state.checked);
+      }
+
+      // Show feedback if already checked
+      if (state.checked) {
+        showFeedback(state.isCorrect, q.explanation);
+        if (!state.isCorrect && q.block === 4) {
+          document.getElementById('btn-try-again').style.display = 'inline-block';
+        }
+      }
+    }
+
+    function selectOption(qId, value) {
+      userAnswers[qId] = { value: value, checked: false };
+      renderQuestion(currentIdx);
+    }
+
+    /* Unscramble logic */
+    function renderUnscrambleWords(q, isChecked) {
+      const pool = document.getElementById('unscramble-pool');
+      const answerZone = document.getElementById('unscramble-answer');
+      pool.innerHTML = '';
+      answerZone.innerHTML = '';
+
+      // Shuffle words initially if not yet answered
+      if (!userAnswers[q.id]?.shuffled) {
+        const shuffled = [...q.words].sort(() => Math.random() - 0.5);
+        userAnswers[q.id] = { ...userAnswers[q.id], shuffled: shuffled };
+      }
+
+      const currentPool = userAnswers[q.id].shuffled.filter(w => !unscrambleSelectedWords.includes(w));
+
+      currentPool.forEach(w => {
+        const chip = document.createElement('button');
+        chip.className = 'word-chip';
+        chip.innerText = w;
+        if (!isChecked) chip.onclick = () => addWordToAnswer(q, w);
+        pool.appendChild(chip);
+      });
+
+      unscrambleSelectedWords.forEach(w => {
+        const chip = document.createElement('button');
+        chip.className = 'word-chip';
+        chip.innerText = w;
+        if (!isChecked) chip.onclick = () => removeWordFromAnswer(q, w);
+        answerZone.appendChild(chip);
+      });
+
+      // Save ongoing selected phrase
+      if (!isChecked) {
+        userAnswers[q.id] = { ...userAnswers[q.id], value: unscrambleSelectedWords.join(' ') };
+      }
+    }
+
+    function addWordToAnswer(q, word) {
+      unscrambleSelectedWords.push(word);
+      userAnswers[q.id].value = unscrambleSelectedWords.join(' ');
+      renderUnscrambleWords(q, false);
+    }
+
+    function removeWordFromAnswer(q, word) {
+      unscrambleSelectedWords = unscrambleSelectedWords.filter(w => w !== word);
+      userAnswers[q.id].value = unscrambleSelectedWords.join(' ');
+      renderUnscrambleWords(q, false);
+    }
+
+    function resetUnscramble() {
+      const q = questions[currentIdx];
+      if (userAnswers[q.id]?.checked) return;
+      unscrambleSelectedWords = [];
+      userAnswers[q.id].value = '';
+      renderUnscrambleWords(q, false);
+    }
+
+    /* Checking answer */
+    function checkAnswer() {
+      const q = questions[currentIdx];
+      let val = userAnswers[q.id]?.value;
+
+      if (q.type === 'text') {
+        val = document.getElementById('text-answer').value.trim();
+        userAnswers[q.id] = { value: val };
+      }
+
+      if (!val) {
+        alert("Por favor, responda à questão antes de verificar!");
+        return;
+      }
+
+      let isCorrect = false;
+
+      if (q.type === 'choice') {
+        isCorrect = (val === q.answer);
+      } else if (q.type === 'text') {
+        isCorrect = q.answerFormat.includes(val);
+      } else if (q.type === 'unscramble') {
+        isCorrect = (val === q.target);
+      }
+
+      userAnswers[q.id].isCorrect = isCorrect;
+      userAnswers[q.id].checked = true;
+
+      renderQuestion(currentIdx);
+    }
+
+    function resetCurrentQuestion() {
+      const q = questions[currentIdx];
+      delete userAnswers[q.id];
+      renderQuestion(currentIdx);
+    }
+
+    function showFeedback(isCorrect, explanation) {
+      const box = document.getElementById('feedback-box');
+      box.style.display = 'block';
+
+      if (isCorrect) {
+        box.className = 'feedback-box correct';
+        box.innerHTML = `<b>✨ Excelente! Você acertou!</b><br>${explanation}`;
+      } else {
+        box.className = 'feedback-box incorrect';
+        box.innerHTML = `<b>❌ Resposta Incorreta!</b><br>${explanation}`;
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIdx > 0) {
+        currentIdx--;
+        renderQuestion(currentIdx);
+      }
+    }
+
+    function nextQuestion() {
+      if (currentIdx < questions.length - 1) {
+        currentIdx++;
+        renderQuestion(currentIdx);
+      } else {
+        generateReport();
+      }
+    }
+
+    /* Final performance report */
+    function generateReport() {
+      document.getElementById('quiz-screen').classList.add('hidden');
+      document.getElementById('report-screen').classList.remove('hidden');
+
+      let correctCount = 0;
+      let incorrectCount = 0;
+      let blockErrors = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+
+      questions.forEach(q => {
+        const state = userAnswers[q.id];
+        if (state && state.checked && state.isCorrect) {
+          correctCount++;
+        } else {
+          incorrectCount++;
+          blockErrors[q.block]++;
+        }
+      });
+
+      const total = questions.length;
+      const percentage = Math.round((correctCount / total) * 100);
+
+      document.getElementById('report-score').innerText = `${percentage}%`;
+      document.getElementById('stat-correct').innerText = correctCount;
+      document.getElementById('stat-incorrect').innerText = incorrectCount;
+      document.getElementById('stat-total').innerText = total;
+
+      // Recommendations generator
+      const recList = document.getElementById('recommendations-list');
+      recList.innerHTML = '';
+
+      if (percentage === 100) {
+        recList.innerHTML = "<li>Parabéns! Você dominou todo o conteúdo perfeitamente! 🌟</li>";
+      } else {
+        if (blockErrors[1] >= 3) {
+          recList.innerHTML += "<li><b>Bloco 1 (Do vs Does):</b> Revise quando usar Do (I, You, We, They) e Does (He, She, It).</li>";
+        }
+        if (blockErrors[2] >= 2) {
+          recList.innerHTML += "<li><b>Bloco 2 (Instrumentos):</b> Pratique os nomes dos instrumentos em inglês (recorder, trumpet, drums, piano, violin, tambourine).</li>";
+        }
+        if (blockErrors[3] >= 2) {
+          recList.innerHTML += "<li><b>Bloco 3 (Orchestra vs Rock Band):</b> Lembre-se de quais instrumentos pertencem à orquestra e quais pertencem à banda de rock.</li>";
+        }
+        if (blockErrors[4] >= 3) {
+          recList.innerHTML += "<li><b>Bloco 4 (Escrita):</b> Atenção ao escrever 'Yes, I do.' e 'No, I don't.' Lembre-se da maiúscula, vírgula, apóstrofo e ponto final.</li>";
+        }
+        if (blockErrors[5] >= 3) {
+          recList.innerHTML += "<li><b>Bloco 5 (Organização de frases):</b> Treine a estrutura de frases de inglês: Sujeito + Verbo + Complemento.</li>";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
